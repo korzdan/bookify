@@ -1,4 +1,4 @@
-package by.korzun.bookify.util;
+package by.korzun.bookify.exception;
 
 import by.korzun.bookify.author.model.exception.AuthorNotFoundException;
 import org.springframework.http.HttpStatus;
