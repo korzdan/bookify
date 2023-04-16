@@ -1,9 +1,7 @@
 create table if not exists author
 (
     id          bigserial primary key,
-    name        varchar(70),
-    surname     varchar(70),
-    patronymic  varchar(70),
+    full_name   varchar(70),
     birth_date  date,
     description varchar(512),
     website     varchar(255)
