@@ -31,7 +31,7 @@ public class Book {
     private BookLanguage language;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Author book;
+    private Author author;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Publisher publisher;
 }

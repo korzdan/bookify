@@ -12,7 +12,8 @@ public enum BookGenre {
     FANTASY("Фэнтези"),
     NOVEL("Роман"),
     DETECTIVE("Детектив"),
-    NON_FICTION("Нехудожественная литература");
+    NON_FICTION("Нехудожественная литература"),
+    HORROR("Ужасы");
 
     private final String value;
 }
