@@ -1,6 +1,12 @@
 package by.korzun.bookify.auth.controller;
 
+import by.korzun.bookify.auth.model.AuthRequestDto;
+import by.korzun.bookify.auth.model.AuthResponseDto;
+import by.korzun.bookify.auth.model.RegisterRequestDto;
+import by.korzun.bookify.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +17,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    private final AuthService authService;
+
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<AuthResponseDto> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
+        return ResponseEntity.ok(authService.registerUser(registerRequestDto));
+    }
+
+    @PostMapping("/register/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<AuthResponseDto> registerAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
+        return ResponseEntity.ok(authService.registerAdmin(registerRequestDto));
+    }
+
+    @PostMapping("/register/super-admin")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public ResponseEntity<AuthResponseDto> registerSuperAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
+        return ResponseEntity.ok(authService.registerSuperAdmin(registerRequestDto));
 
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody AuthRequestDto authRequestDto) {
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> login(@RequestBody AuthRequestDto authRequestDto) {
+        return ResponseEntity.ok(authService.authenticate(authRequestDto));
 
     }
 }
