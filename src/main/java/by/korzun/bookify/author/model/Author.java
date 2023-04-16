@@ -1,5 +1,6 @@
-package by.korzun.bookify.domain;
+package by.korzun.bookify.author.model;
 
+import by.korzun.bookify.book.model.Book;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,26 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "publisher")
+@Table(name = "author")
 @Getter
 @Setter
 @Accessors(chain = true)
 @EqualsAndHashCode
-public class Publisher {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private LocalDate foundationDate;
-    private String website;
-    private String email;
-    private String phoneNumber;
+    private String fullName;
     private String description;
+    private String website;
+    private LocalDate birthDate;
 
     @OneToMany
     @JoinTable(
-            name = "publishers_books",
-            joinColumns = @JoinColumn(name = "publisher_id"),
+            name = "authors_books",
+            joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     @JsonIgnore

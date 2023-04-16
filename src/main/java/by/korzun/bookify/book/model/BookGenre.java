@@ -1,4 +1,4 @@
-package by.korzun.bookify.domain;
+package by.korzun.bookify.book.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

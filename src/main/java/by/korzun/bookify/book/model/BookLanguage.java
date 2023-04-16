@@ -1,4 +1,4 @@
-package by.korzun.bookify.domain;
+package by.korzun.bookify.book.model;
 
 public enum BookLanguage {
     RUS,

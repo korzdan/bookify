@@ -1,5 +1,7 @@
-package by.korzun.bookify.domain;
+package by.korzun.bookify.book.model;
 
+import by.korzun.bookify.author.model.Author;
+import by.korzun.bookify.publisher.model.Publisher;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
