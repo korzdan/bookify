@@ -2,9 +2,11 @@ package by.korzun.bookify.order.cotroller;
 
 import by.korzun.bookify.order.model.Order;
 import by.korzun.bookify.order.service.OrderService;
+import by.korzun.bookify.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,10 +37,10 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<String> createOrder(
-            @RequestParam String userEmail,
+            @AuthenticationPrincipal User user,
             @RequestBody List<Long> bookIds)
     {
-        orderService.createOrder(bookIds, userEmail);
+        orderService.createOrder(bookIds, user.getEmail());
         return ResponseEntity.ok("Заказ отправлен на обработку.");
     }
 

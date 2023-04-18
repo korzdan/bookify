@@ -4,6 +4,7 @@ import by.korzun.bookify.user.model.User;
 import by.korzun.bookify.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +18,17 @@ public class UserController {
 
     @PostMapping("/author/recommendations")
     public ResponseEntity<User> setAuthorRecommendations(
-            @RequestParam String userEmail,
+            @AuthenticationPrincipal User user,
             @RequestBody List<Long> authorIds
     ) {
-        return ResponseEntity.ok(userService.addAuthorRecommendationsToUser(userEmail, authorIds));
+        return ResponseEntity.ok(userService.addAuthorRecommendationsToUser(user.getEmail(), authorIds));
     }
 
     @PostMapping("/genre/recommendations")
     public ResponseEntity<User> setGenreRecommendations(
-            @RequestParam String userEmail,
+            @AuthenticationPrincipal User user,
             @RequestBody List<Long> genreIds
     ) {
-        return ResponseEntity.ok(userService.addGenreRecommendationsToUser(userEmail, genreIds));
+        return ResponseEntity.ok(userService.addGenreRecommendationsToUser(user.getEmail(), genreIds));
     }
 }

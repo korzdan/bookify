@@ -35,20 +35,22 @@ public class UserService implements UserDetailsService {
     }
 
     public User addGenreRecommendationsToUser(String userEmail, List<Long> genreIds) {
-        return loadUserByUsername(userEmail)
+        User user = loadUserByUsername(userEmail)
                 .setGenreRecommendations(
                         genreIds.stream()
                                 .map(genreService::findById)
                                 .collect(Collectors.toList())
                 );
+        return userRepository.save(user);
     }
 
     public User addAuthorRecommendationsToUser(String userEmail, List<Long> authorIds) {
-        return loadUserByUsername(userEmail)
+        User user = loadUserByUsername(userEmail)
                 .setAuthorRecommendations(
                         authorIds.stream()
                                 .map(authorService::findById)
                                 .collect(Collectors.toList())
                 );
+        return userRepository.save(user);
     }
 }
