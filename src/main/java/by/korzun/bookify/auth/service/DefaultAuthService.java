@@ -37,7 +37,7 @@ public class DefaultAuthService implements AuthService {
         if (userService.existsByEmail(registerRequestDto.getEmail())) {
             throw new UserAlreadyExistsException("Админ с таким email уже существует.");
         }
-        User newUser = userService.save(toUser(registerRequestDto, Role.ADMIN));
+        User newUser = userService.save(toUser(registerRequestDto, Role.ROLE_ADMIN));
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
@@ -46,7 +46,7 @@ public class DefaultAuthService implements AuthService {
         if (userService.existsByEmail(registerRequestDto.getEmail())) {
             throw new UserAlreadyExistsException("Супер-админ с таким email уже существует.");
         }
-        User newUser = userService.save(toUser(registerRequestDto, Role.SUPER_ADMIN));
+        User newUser = userService.save(toUser(registerRequestDto, Role.ROLE_SUPER_ADMIN));
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
@@ -55,7 +55,7 @@ public class DefaultAuthService implements AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword())
         );
-        User user = userService.findByEmail(authRequestDto.getEmail());
+        User user = userService.loadUserByUsername(authRequestDto.getEmail());
         return new AuthResponseDto(jwtService.generateToken(user));
     }
 
@@ -76,6 +76,6 @@ public class DefaultAuthService implements AuthService {
                 .setEmail(dto.getEmail())
                 .setPassword(passwordEncoder.encode(dto.getPassword()))
                 .setIsEnabled(true)
-                .setRole(Role.USER);
+                .setRole(Role.ROLE_USER);
     }
 }

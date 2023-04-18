@@ -2,6 +2,7 @@ package by.korzun.bookify.book.service;
 
 import by.korzun.bookify.author.model.Author;
 import by.korzun.bookify.author.service.AuthorService;
+import by.korzun.bookify.book.exception.BookNotFound;
 import by.korzun.bookify.book.model.Book;
 import by.korzun.bookify.book.repository.BookRepository;
 import by.korzun.bookify.publisher.model.Publisher;
@@ -36,6 +37,12 @@ public class DefaultBookService implements BookService {
                 .map(Author::getBooks)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Book findById(Long bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFound("Книга не найдена."));
     }
 
     @Override

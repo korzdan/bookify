@@ -28,8 +28,9 @@ public class Book {
     private String isbn;
     @Enumerated(value = EnumType.STRING)
     private BookLanguage language;
+    private double price;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Genre genre;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Author author;
