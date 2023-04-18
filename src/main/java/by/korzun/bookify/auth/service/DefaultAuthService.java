@@ -7,11 +7,10 @@ import by.korzun.bookify.auth.model.RegisterRequestDto;
 import by.korzun.bookify.security.service.JwtService;
 import by.korzun.bookify.user.model.Role;
 import by.korzun.bookify.user.model.User;
-import by.korzun.bookify.user.repository.UserRepository;
+import by.korzun.bookify.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,35 +18,35 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthResponseDto registerUser(RegisterRequestDto registerRequestDto) {
-        if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
+    public AuthResponseDto registerUser(RegisterRequestDto userRegisterRequestDto) {
+        if (userService.existsByEmail(userRegisterRequestDto.getEmail())) {
             throw new UserAlreadyExistsException("Пользователь с таким email уже существует.");
         }
-        User newUser = userRepository.save(toUser(registerRequestDto, Role.USER));
+        User newUser = userService.save(toUser(userRegisterRequestDto));
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
     @Override
     public AuthResponseDto registerAdmin(RegisterRequestDto registerRequestDto) {
-        if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
+        if (userService.existsByEmail(registerRequestDto.getEmail())) {
             throw new UserAlreadyExistsException("Админ с таким email уже существует.");
         }
-        User newUser = userRepository.save(toUser(registerRequestDto, Role.ADMIN));
+        User newUser = userService.save(toUser(registerRequestDto, Role.ADMIN));
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
     @Override
     public AuthResponseDto registerSuperAdmin(RegisterRequestDto registerRequestDto) {
-        if (userRepository.existsByEmail(registerRequestDto.getEmail())) {
+        if (userService.existsByEmail(registerRequestDto.getEmail())) {
             throw new UserAlreadyExistsException("Супер-админ с таким email уже существует.");
         }
-        User newUser = userRepository.save(toUser(registerRequestDto, Role.SUPER_ADMIN));
+        User newUser = userService.save(toUser(registerRequestDto, Role.SUPER_ADMIN));
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
@@ -56,16 +55,27 @@ public class DefaultAuthService implements AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword())
         );
-        User user = userRepository.findByEmail(authRequestDto.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден."));
+        User user = userService.findByEmail(authRequestDto.getEmail());
         return new AuthResponseDto(jwtService.generateToken(user));
     }
 
     private User toUser(RegisterRequestDto registerRequestDto, Role role) {
-         return new User()
+        return new User()
+                .setName(registerRequestDto.getName())
+                .setSurname(registerRequestDto.getSurname())
                 .setEmail(registerRequestDto.getEmail())
                 .setPassword(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .setIsEnabled(true)
                 .setRole(role);
+    }
+
+    private User toUser(RegisterRequestDto dto) {
+        return new User()
+                .setName(dto.getName())
+                .setSurname(dto.getSurname())
+                .setEmail(dto.getEmail())
+                .setPassword(passwordEncoder.encode(dto.getPassword()))
+                .setIsEnabled(true)
+                .setRole(Role.USER);
     }
 }
