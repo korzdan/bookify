@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {setToken} from "../../utils/JwtToken/JwtToken";
+import {setToken} from "../../utils/JwtToken";
 import "../Login/Login.css"
 
 const Login = () => {
