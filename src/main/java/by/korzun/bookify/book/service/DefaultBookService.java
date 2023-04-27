@@ -5,6 +5,7 @@ import by.korzun.bookify.author.service.AuthorService;
 import by.korzun.bookify.book.exception.BookNotFound;
 import by.korzun.bookify.book.model.Book;
 import by.korzun.bookify.book.repository.BookRepository;
+import by.korzun.bookify.genre.model.Genre;
 import by.korzun.bookify.publisher.model.Publisher;
 import by.korzun.bookify.publisher.service.PublisherService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,11 @@ public class DefaultBookService implements BookService {
     public Book findById(Long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFound("Книга не найдена."));
+    }
+
+    @Override
+    public List<Book> findByGenre(Genre genre) {
+        return bookRepository.findAllByGenre(genre);
     }
 
     @Override
