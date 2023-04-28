@@ -25,8 +25,8 @@ const BookCard = ({book}) => {
             </a>
             <div className="mt-4 flex flex-col items-center justify-center">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{book.genre.name}</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">{book.title}</h2>
-                <h2 className="text-gray-900 title-font text-lg font-normal">{book.author.fullName}</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium items-center">{book.title}</h2>
+                <h2 className="text-gray-900 text-lg font-normal">{book.author.fullName}</h2>
                 <p className="mt-1 font-semibold">{book.price} BYN</p>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-full mt-2"
                         onClick={handleClick}>
