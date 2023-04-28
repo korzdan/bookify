@@ -8,7 +8,6 @@ const BooksPage = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        console.log(getToken())
         axios.get("http://localhost:8081/book", {
             headers: {
                 'Authorization': 'Bearer ' + getToken()
@@ -26,12 +25,7 @@ const BooksPage = () => {
                     <div className="flex flex-wrap -m-4">
                         {
                             books.map((book, idx) => (
-                                <BookCard key={idx}
-                                          id={book.id}
-                                          title={book.title}
-                                          price={book.price}
-                                          author={book.author.fullName}
-                                          genre={book.genre.name}/>
+                                <BookCard key={idx} book={book}/>
                             ))
                         }
                     </div>
