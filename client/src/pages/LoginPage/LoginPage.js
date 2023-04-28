@@ -43,7 +43,7 @@ const LoginPage = () => {
                         <input className="login" type="password" id="password" value={password}
                                onChange={e => setPassword(e.target.value)}/>
                     </div>
-                    <input className="login" type="button" id="login" value="LoginPage" onClick={handleLogin}/>
+                    <input className="login" type="button" id="login" value="Войти" onClick={handleLogin}/>
                 </div>
             </form>
         </div>
