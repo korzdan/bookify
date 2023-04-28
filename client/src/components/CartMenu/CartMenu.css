@@ -3,12 +3,11 @@
     background-color: black;
     right: 230px;
     top: 30px;
-    width: 400px;
+    width: 700px;
     padding: 10px 20px;
     z-index: 2;
     border-radius: 15px;
     color: #FFFFFF;
-    opacity: 0.8;
 }
 
 .cart-menu__arrange {
@@ -21,4 +20,5 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    font-weight: bolder;
 }

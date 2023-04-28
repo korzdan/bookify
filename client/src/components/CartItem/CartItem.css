@@ -10,3 +10,30 @@
     display: flex;
     align-items: center;
 }
+
+.cart-item__btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+.cart-item__plus-btn {
+    background-color: rgb(59 130 246);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+}
+
+.cart-item__minus-btn {
+    background-color: rgb(59 130 246);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+}
