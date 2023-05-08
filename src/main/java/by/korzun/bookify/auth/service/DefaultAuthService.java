@@ -5,6 +5,7 @@ import by.korzun.bookify.auth.model.AuthRequestDto;
 import by.korzun.bookify.auth.model.AuthResponseDto;
 import by.korzun.bookify.auth.model.RegisterRequestDto;
 import by.korzun.bookify.security.service.JwtService;
+import by.korzun.bookify.statistics.service.StatisticsService;
 import by.korzun.bookify.user.model.Role;
 import by.korzun.bookify.user.model.User;
 import by.korzun.bookify.user.service.UserService;
@@ -22,6 +23,7 @@ public class DefaultAuthService implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final StatisticsService statisticsService;
 
     @Override
     public AuthResponseDto registerUser(RegisterRequestDto userRegisterRequestDto) {
@@ -29,6 +31,7 @@ public class DefaultAuthService implements AuthService {
             throw new UserAlreadyExistsException("Пользователь с таким email уже существует.");
         }
         User newUser = userService.save(toUser(userRegisterRequestDto));
+        statisticsService.incUsers();
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
@@ -38,15 +41,7 @@ public class DefaultAuthService implements AuthService {
             throw new UserAlreadyExistsException("Админ с таким email уже существует.");
         }
         User newUser = userService.save(toUser(registerRequestDto, Role.ROLE_ADMIN));
-        return new AuthResponseDto(jwtService.generateToken(newUser));
-    }
-
-    @Override
-    public AuthResponseDto registerSuperAdmin(RegisterRequestDto registerRequestDto) {
-        if (userService.existsByEmail(registerRequestDto.getEmail())) {
-            throw new UserAlreadyExistsException("Супер-админ с таким email уже существует.");
-        }
-        User newUser = userService.save(toUser(registerRequestDto, Role.ROLE_SUPER_ADMIN));
+        statisticsService.incUsers();
         return new AuthResponseDto(jwtService.generateToken(newUser));
     }
 
@@ -62,6 +57,7 @@ public class DefaultAuthService implements AuthService {
     private User toUser(RegisterRequestDto registerRequestDto, Role role) {
         return new User()
                 .setName(registerRequestDto.getName())
+                .setOrdersNum(0)
                 .setSurname(registerRequestDto.getSurname())
                 .setEmail(registerRequestDto.getEmail())
                 .setPassword(passwordEncoder.encode(registerRequestDto.getPassword()))
@@ -72,6 +68,7 @@ public class DefaultAuthService implements AuthService {
     private User toUser(RegisterRequestDto dto) {
         return new User()
                 .setName(dto.getName())
+                .setOrdersNum(0)
                 .setSurname(dto.getSurname())
                 .setEmail(dto.getEmail())
                 .setPassword(passwordEncoder.encode(dto.getPassword()))

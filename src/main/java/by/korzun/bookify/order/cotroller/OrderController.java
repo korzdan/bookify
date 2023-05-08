@@ -1,5 +1,6 @@
 package by.korzun.bookify.order.cotroller;
 
+import by.korzun.bookify.order.model.CreateOrderDto;
 import by.korzun.bookify.order.model.Order;
 import by.korzun.bookify.order.service.OrderService;
 import by.korzun.bookify.user.model.User;
@@ -24,9 +25,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll());
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> findByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(orderService.findByUserId(userId));
+    @GetMapping("/my")
+    public ResponseEntity<List<Order>> getUserOrder(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(orderService.findByUserId(user.getId()));
     }
 
     @GetMapping("/{status}")
@@ -38,9 +39,9 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<String> createOrder(
             @AuthenticationPrincipal User user,
-            @RequestBody List<Long> bookIds)
+            @RequestBody CreateOrderDto dto)
     {
-        orderService.createOrder(bookIds, user.getEmail());
+        orderService.createOrder(dto, user.getEmail());
         return ResponseEntity.ok("Заказ отправлен на обработку.");
     }
 
@@ -49,5 +50,12 @@ public class OrderController {
     public ResponseEntity<String> deliverOrder(@PathVariable Long orderId) {
         orderService.deliverOrderByOrderId(orderId);
         return ResponseEntity.ok("Заказ доставлен.");
+    }
+
+    @PostMapping("/delivering/{orderId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deliveringOrder(@PathVariable Long orderId) {
+        orderService.deliveringOrderByOrderId(orderId);
+        return ResponseEntity.ok("Заказ доставляется.");
     }
 }

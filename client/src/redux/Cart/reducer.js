@@ -24,16 +24,20 @@ const cartSlice = createSlice({
         },
         deleteItemFromCart: (state, action) => {
             const findItem = state.itemsInCart.find(obj => obj.id === action.payload.id)
-            if (findItem && findItem.count > 1) {
-                findItem.count--;
-            }
             if (findItem.count === 1) {
                 removeObjectWithId(state.itemsInCart, findItem.id)
+            }
+            if (findItem && findItem.count > 1) {
+                findItem.count--;
             }
             state.totalPrice = parseFloat(state.itemsInCart.reduce((sum, obj) => {
                 return (obj.price * obj.count) + sum;
             }, 0).toString().substring(0, 6))
         },
+        clearCart: (state) => {
+            state.itemsInCart = [];
+            state.totalPrice = 0;
+        }
     }
 })
 
@@ -47,5 +51,9 @@ const removeObjectWithId = (arr, id) => {
     return arr;
 }
 
-export const {setItemInCart, deleteItemFromCart} = cartSlice.actions
+export const {
+    setItemInCart,
+    deleteItemFromCart,
+    clearCart
+} = cartSlice.actions
 export default cartSlice.reducer;

@@ -1,21 +1,19 @@
-create table if not exists author
+create table if not exists user_account
 (
-    id          bigserial primary key,
-    full_name   varchar(70),
-    birth_date  date,
-    description varchar(512),
-    website     varchar(255)
+    id         bigserial primary key,
+    name       varchar(255),
+    surname    varchar(255),
+    email      varchar(255),
+    password   varchar(255),
+    is_enabled boolean,
+    role       varchar(255),
+    orders_num integer default 0
 );
 
-create table if not exists publisher
+create table genre
 (
-    id              bigserial primary key,
-    name            varchar(255),
-    foundation_date date,
-    website         varchar(255),
-    email           varchar(255),
-    phone_number    varchar(20),
-    description     varchar(512)
+    id   bigserial primary key,
+    name varchar(50)
 );
 
 create table if not exists book
@@ -24,35 +22,45 @@ create table if not exists book
     title            varchar(255),
     description      varchar(512),
     publication_date date,
-    genre            varchar(255),
+    genre_id         bigserial,
     pages            int,
     isbn             varchar(25),
     language         varchar(15),
+    storage_num      integer          default 10,
+    order_num        integer          default 0,
+    author           varchar(255),
+    publisher        varchar(255),
+    price            double precision default 40.0,
 
-    author_id        bigserial
-        constraint FK_book_author_id references author,
-    publisher_id     bigserial
-        constraint FK_book_publisher_id references publisher
+    foreign key (genre_id) references genre (id)
 );
 
-create table if not exists authors_books
+create table if not exists user_order
 (
-    author_id bigserial,
-    book_id   bigserial
+    id          bigserial primary key,
+    user_id     bigserial,
+    status      varchar(15),
+    comment     varchar(255),
+    address     varchar(255),
+    total_price double precision,
+
+    foreign key (user_id) references user_account (id)
 );
 
-alter table if exists authors_books
-    add constraint FK_authors_books_author_id foreign key (author_id) references author;
-alter table if exists authors_books
-    add constraint FK_authors_books_book_id foreign key (book_id) references book;
-
-create table if not exists publishers_books
+create table if not exists user_orders_books
 (
-    publisher_id bigserial,
-    book_id      bigserial
+    order_id bigserial,
+    book_id  bigserial,
+
+    foreign key (order_id) references user_order (id),
+    foreign key (book_id) references book (id)
 );
 
-alter table if exists publishers_books
-    add constraint FK_publishers_books_publisher_id foreign key (publisher_id) references publisher;
-alter table if exists publishers_books
-    add constraint FK_publishers_books_book_id foreign key (book_id) references book;
+create table if not exists statistics
+(
+    id bigserial primary key,
+    orders_num bigint,
+    users_num bigint,
+    books_num bigint
+);
+

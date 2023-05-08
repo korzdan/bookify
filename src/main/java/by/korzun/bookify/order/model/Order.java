@@ -28,4 +28,7 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private List<Book> books;
+    private String comment;
+    private String address;
+    private Double totalPrice;
 }

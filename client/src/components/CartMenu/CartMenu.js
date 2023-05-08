@@ -18,7 +18,7 @@ const CartMenu = ({items, totalPrice, onClick}) => {
                             <span>Итого: </span>
                             <span>{totalPrice} BYN</span>
                         </div>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-full mt-2"
+                        <button className="bg-gray-900 hover:bg-gray-950 text-white font-bold py-2 px-3 mt-2 rounded"
                                 onClick={onClick}>
                             Оформить заказ
                         </button>

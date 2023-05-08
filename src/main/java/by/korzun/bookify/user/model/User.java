@@ -1,16 +1,12 @@
 package by.korzun.bookify.user.model;
 
-import by.korzun.bookify.author.model.Author;
-import by.korzun.bookify.genre.model.Genre;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,24 +25,7 @@ public class User implements UserDetails {
     private Boolean isEnabled;
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_genre_recommendations",
-            joinColumns = @JoinColumn(name = "user_account_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
-    )
-    @EqualsAndHashCode.Exclude
-    private List<Genre> genreRecommendations = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_author_recommendations",
-            joinColumns = @JoinColumn(name = "user_account_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
-    @EqualsAndHashCode.Exclude
-    private List<Author> authorRecommendations = new ArrayList<>();
+    private Integer ordersNum;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -25,16 +25,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<AuthResponseDto> registerAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
         return ResponseEntity.ok(authService.registerAdmin(registerRequestDto));
-    }
-
-    @PostMapping("/register/super-admin")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<AuthResponseDto> registerSuperAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
-        return ResponseEntity.ok(authService.registerSuperAdmin(registerRequestDto));
-
     }
 
     @PostMapping("/login")

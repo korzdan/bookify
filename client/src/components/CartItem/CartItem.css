@@ -20,7 +20,7 @@
 }
 
 .cart-item__plus-btn {
-    background-color: rgb(59 130 246);
+    background-color: rgb(17, 24, 39);
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -30,7 +30,7 @@
 }
 
 .cart-item__minus-btn {
-    background-color: rgb(59 130 246);
+    background-color: rgb(17, 24, 39);
     border-radius: 50%;
     width: 30px;
     height: 30px;

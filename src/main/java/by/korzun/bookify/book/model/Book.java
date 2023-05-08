@@ -1,8 +1,6 @@
 package by.korzun.bookify.book.model;
 
-import by.korzun.bookify.author.model.Author;
 import by.korzun.bookify.genre.model.Genre;
-import by.korzun.bookify.publisher.model.Publisher;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,14 +24,14 @@ public class Book {
     private LocalDate publicationDate;
     private Integer pages;
     private String isbn;
+    private String author;
+    private String publisher;
     @Enumerated(value = EnumType.STRING)
     private BookLanguage language;
-    private double price;
+    private Double price;
+    private Integer storageNum;
+    private Integer orderNum;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Genre genre;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Author author;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Publisher publisher;
 }

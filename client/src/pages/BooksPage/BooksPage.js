@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import BookCard from "../../components/BookCard";
 import {getToken} from "../../utils/JwtToken";
+import BookCard from "../../components/BookCard/BookCard";
 
 const BooksPage = () => {
 

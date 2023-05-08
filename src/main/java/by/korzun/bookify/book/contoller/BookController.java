@@ -1,15 +1,14 @@
 package by.korzun.bookify.book.contoller;
 
 import by.korzun.bookify.book.model.Book;
+import by.korzun.bookify.book.model.CreateBookDto;
 import by.korzun.bookify.book.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,27 +27,9 @@ public class BookController {
         return ResponseEntity.ok(bookService.findById(id));
     }
 
-    @GetMapping("/title")
-    public ResponseEntity<List<Book>> findByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(bookService.findByTitle(title));
-    }
-
-    @GetMapping("/author")
-    public ResponseEntity<List<Book>> findByAuthor(@RequestParam String authorName) {
-        return ResponseEntity.ok(bookService.findByAuthorFullName(authorName));
-    }
-
-    @GetMapping("/publisher")
-    public ResponseEntity<List<Book>> findByPublisher(@RequestParam String publisherName) {
-        return ResponseEntity.ok(bookService.findByAuthorFullName(publisherName));
-    }
-
-    @GetMapping("/img/{name}")
-    public ResponseEntity<InputStreamResource> getBookImage(@PathVariable String name) {
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(new InputStreamResource(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/images/" + name)))
-                );
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Book> createBook(@RequestBody CreateBookDto dto) {
+        return ResponseEntity.ok(bookService.createBook(dto));
     }
 }

@@ -8,6 +8,11 @@ spring:
     username: postgres
     password: root
 
+    servlet:
+      multipart:
+        max-file-size: 100000000
+        max-request-size: 100000000
+
 jwt:
   secret-key: 294A404E635266556A586E327235753878214125442A472D4B6150645367566B
-  duration: 1800000
+  duration: 3600000

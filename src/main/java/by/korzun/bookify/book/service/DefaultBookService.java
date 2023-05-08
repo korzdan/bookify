@@ -1,26 +1,25 @@
 package by.korzun.bookify.book.service;
 
-import by.korzun.bookify.author.model.Author;
-import by.korzun.bookify.author.service.AuthorService;
 import by.korzun.bookify.book.exception.BookNotFound;
 import by.korzun.bookify.book.model.Book;
+import by.korzun.bookify.book.model.BookLanguage;
+import by.korzun.bookify.book.model.CreateBookDto;
 import by.korzun.bookify.book.repository.BookRepository;
-import by.korzun.bookify.genre.model.Genre;
-import by.korzun.bookify.publisher.model.Publisher;
-import by.korzun.bookify.publisher.service.PublisherService;
+import by.korzun.bookify.genre.service.GenreService;
+import by.korzun.bookify.statistics.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultBookService implements BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorService authorService;
-    private final PublisherService publisherService;
+    private final GenreService genreService;
+    private final StatisticsService statisticsService;
 
     @Override
     public List<Book> findAll() {
@@ -33,29 +32,35 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
-    public List<Book> findByAuthorFullName(String authorFullName) {
-        return authorService.findByFullName(authorFullName).stream()
-                .map(Author::getBooks)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Book findById(Long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFound("Книга не найдена."));
     }
 
     @Override
-    public List<Book> findByGenre(Genre genre) {
-        return bookRepository.findAllByGenre(genre);
+    public Book decrementStorageNumAndIncOrderNum(Long id, Integer number) {
+        Book book = findById(id);
+        book.setStorageNum(book.getStorageNum() - number);
+        book.setOrderNum(book.getOrderNum() + number);
+        return bookRepository.save(book);
     }
 
     @Override
-    public List<Book> findByPublisherName(String publisherName) {
-        return publisherService.findByName(publisherName).stream()
-                .map(Publisher::getBooks)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+    public Book createBook(CreateBookDto dto) {
+        Book newBook = new Book()
+                .setTitle(dto.getTitle())
+                .setDescription(dto.getDescription())
+                .setPublicationDate(LocalDate.parse(dto.getPublicationDate()))
+                .setGenre(genreService.findById(dto.getGenreId()))
+                .setPages(dto.getPages())
+                .setIsbn(dto.getIsbn())
+                .setLanguage(BookLanguage.valueOf(dto.getLanguage().toUpperCase()))
+                .setStorageNum(dto.getStorageNum())
+                .setOrderNum(0)
+                .setAuthor(dto.getAuthor())
+                .setPublisher(dto.getPublisher())
+                .setPrice(dto.getPrice());
+        statisticsService.incBooks();
+        return bookRepository.save(newBook);
     }
 }

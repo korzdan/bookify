@@ -1,7 +1,6 @@
 package by.korzun.bookify.exception;
 
 import by.korzun.bookify.auth.exception.UserAlreadyExistsException;
-import by.korzun.bookify.author.model.exception.AuthorNotFoundException;
 import by.korzun.bookify.genre.exception.GenreNotFound;
 import by.korzun.bookify.order.exception.OrderNotFound;
 import org.springframework.http.HttpStatus;
@@ -12,11 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ErrorHandler {
-
-    @ExceptionHandler(AuthorNotFoundException.class)
-    public ResponseEntity<String> handleAuthorNotFound(AuthorNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
