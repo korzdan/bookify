@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  bookify-db:
+    image: 'postgres:14.0'
+    container_name: 'db'
+    environment:
+      - 'POSTGRES_USER=root'
+      - 'POSTGRES_PASSWORD=root'
+      - 'POSTGRES_DB=db'
+
+  bookify-backend:
+    build: ./
+    container_name: 'bookify-backend'
+    ports:
+      - "8081:8081"
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db'
+      - 'SPRING_DATASOURCE_USERNAME=root'
+      - 'SPRING_DATASOURCE_PASSWORD=root'
+    depends_on:
+      - bookify-db
+
+  bookify-frontend:
+    build: ./client
+    container_name: 'bookify-frontend'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - bookify-backend
