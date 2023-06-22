@@ -1,5 +1,6 @@
 package by.bookify.image.controller;
 
+import by.bookify.image.service.GridFsMongoImageService;
 import by.bookify.image.service.ImageService;
 import by.bookify.image.service.MongoImageService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ImageController {
 
-    private final MongoImageService imageService;
+    private final GridFsMongoImageService imageService;
 
     @GetMapping("/{bookId}")
     public ResponseEntity<InputStreamResource> findImage(@PathVariable Long bookId) {
