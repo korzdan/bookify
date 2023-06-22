@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 public class DefaultImageService implements ImageService {
 
     private static final String PATH_TO_UPLOAD_IMAGE = System.getProperty("user.dir") + "/src/main/images/";
-    private static final String JPG_IMAGE_EXTENSION = ".jpg";
 
     @Override
     public void uploadImage(Long bookId, MultipartFile file) {

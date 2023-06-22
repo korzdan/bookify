@@ -22,8 +22,6 @@ public class MongoImageService implements ImageService {
 
     private final ImageRepository imageRepository;
 
-    private static final String JPG_IMAGE_EXTENSION = ".jpg";
-
     @Override
     public void uploadImage(Long bookId, MultipartFile file) {
         Image image = buildImage(bookId, file);
