@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+            jdk 'Jdk-17' // Specify the tool ID for Java 17 configured in Jenkins
+        }
     stages {
         stage("Checkout sources from GitHub") {
             steps {
