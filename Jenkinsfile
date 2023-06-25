@@ -9,18 +9,25 @@ pipeline {
         stage("Compile") {
             steps {
                 withGradle {
-                    sh "./gradlew build"
+                    sh "./gradlew classes testClasses --no-daemon"
                 }
             }
         }
         stage("Test") {
             steps {
                 withGradle {
-                    sh "./gradlew test"
+                    sh "./gradlew test --no-daemon"
                 }
             }
         }
-        stage("Build") {
+        stage("Build app") {
+            steps {
+                withGradle {
+                    sh "./gradlew build -x test --parallel --no-daemon"
+                }
+            }
+        }
+        stage("Build docker image") {
             steps {
                 script {
                     docker.build("bookify", "-f Dockerfile .")
