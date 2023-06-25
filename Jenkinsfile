@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    options {
-        jdk {
-            name = '17'
-        }
-    }
     stages {
         stage("Checkout sources from GitHub") {
             steps {
