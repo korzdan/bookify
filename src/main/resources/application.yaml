@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/bookify
+    url: jdbc:postgresql://postgresdb:5432/bookify
     username: postgres
     password: root
 

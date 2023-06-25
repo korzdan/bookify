@@ -1,4 +1,4 @@
-FROM amazoncorretto:19
+FROM amazoncorretto:17-alpine
 COPY /src/main/resources/db/migration /src/main/resources/db/migration
 COPY /src/main/images /src/main/images
 ADD /build/libs/bookify-0.0.1-SNAPSHOT.jar bookify-backend.jar
