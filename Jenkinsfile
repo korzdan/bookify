@@ -9,6 +9,7 @@ pipeline {
         stage("Compile") {
             steps {
                 withGradle {
+                    sh "java --version"
                     sh "./gradlew classes testClasses --no-daemon"
                 }
             }
