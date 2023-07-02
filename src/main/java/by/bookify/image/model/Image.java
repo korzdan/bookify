@@ -13,7 +13,5 @@ public class Image {
     @Id
     private Long id;
 
-    private String title;
-
     private Binary content;
 }

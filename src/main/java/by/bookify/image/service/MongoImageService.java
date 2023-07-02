@@ -10,6 +10,7 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -23,10 +24,13 @@ public class MongoImageService implements ImageService {
     private final ImageRepository imageRepository;
 
     @Override
+    @Transactional
     public void uploadImage(Long bookId, MultipartFile file) {
-        Image image = buildImage(bookId, file);
-        imageRepository.deleteById(bookId);
-        imageRepository.insert(image);
+        if(file != null) {
+            Image image = buildImage(bookId, file);
+            imageRepository.deleteById(bookId);
+            imageRepository.insert(image);
+        }
     }
 
     @Override
@@ -40,7 +44,6 @@ public class MongoImageService implements ImageService {
     private Image buildImage(Long bookId, MultipartFile file) {
         return Image.builder()
                 .id(bookId)
-                .title(bookId + JPG_IMAGE_EXTENSION)
                 .content(getFileContent(bookId, file))
                 .build();
     }
