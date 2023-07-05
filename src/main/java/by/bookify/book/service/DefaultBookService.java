@@ -9,6 +9,9 @@ import by.bookify.genre.service.GenreService;
 import by.bookify.statistics.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,17 +28,25 @@ public class DefaultBookService implements BookService {
     private final StatisticsService statisticsService;
 
     @Override
+    @Cacheable("books")
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
     @Override
+    @Cacheable(value = "single-book", key = "#bookId")
     public Book findById(Long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException("Book not found."));
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(value ="single-book", key="#id"),
+                    @CacheEvict(value="books", allEntries= true)
+            }
+    )
     public void updateBookQuantityParameters(Long id, Integer number) {
         Book book = findById(id);
         book.setStorageNum(book.getStorageNum() - number)
@@ -46,6 +57,7 @@ public class DefaultBookService implements BookService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public Book createBook(BookCreateDto dto) {
         Book book = toBook(dto);
         statisticsService.incrementBooksNum();
