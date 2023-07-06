@@ -24,7 +24,7 @@ public class DefaultBookServiceTest {
     private DefaultBookService bookService;
 
     @Test
-    void findById_bookExist_True() {
+    void findById_bookExist_true() {
         Long bookId = 1L;
         Book book = new Book()
                 .setAuthor("Author")
@@ -40,7 +40,7 @@ public class DefaultBookServiceTest {
     }
 
     @Test
-    void findById_bookDoesNotExist_ThrownException() {
+    void findById_bookDoesNotExist_thrownException() {
         Long bookId = 10L;
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
