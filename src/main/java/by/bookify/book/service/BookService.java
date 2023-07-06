@@ -10,7 +10,7 @@ public interface BookService {
 
     Book findById(Long bookId);
 
-    void updateBookQuantityParameters(Long id, Integer number);
+    Book updateBookQuantityParameters(Long id, Integer number);
 
     Book createBook(BookCreateDto dto);
 }
