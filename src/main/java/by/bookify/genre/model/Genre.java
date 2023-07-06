@@ -3,6 +3,7 @@ package by.bookify.genre.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "genre")
 @Setter
 @Getter
+@Accessors(chain = true)
 @EqualsAndHashCode
 public class Genre {
     @Id
