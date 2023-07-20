@@ -17,8 +17,9 @@ import java.nio.file.Paths;
 @Slf4j
 public class DefaultImageService implements ImageService {
 
-    private static final String PATH_TO_UPLOAD_IMAGE = System.getProperty("user.dir") + "/src/main/images/";
     private static final String JPG_IMAGE_EXTENSION = ".jpg";
+
+    private static final String PATH_TO_UPLOAD_IMAGE = System.getProperty("user.dir") + "/src/main/images/";
 
     @Override
     public void uploadImage(Long bookId, MultipartFile file) {

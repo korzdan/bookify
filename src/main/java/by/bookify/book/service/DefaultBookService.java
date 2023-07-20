@@ -6,6 +6,7 @@ import by.bookify.book.model.BookCreateDto;
 import by.bookify.book.model.BookLanguage;
 import by.bookify.book.repository.BookRepository;
 import by.bookify.genre.service.GenreService;
+import by.bookify.book.exception.NotEnoughBooksInStorageException;
 import by.bookify.statistics.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,12 +48,17 @@ public class DefaultBookService implements BookService {
                     @CacheEvict(value="books", allEntries= true)
             }
     )
-    public void updateBookQuantityParameters(Long id, Integer number) {
+    public Book updateBookQuantityParameters(Long id, Integer number) {
         Book book = findById(id);
+        if(number > book.getStorageNum()) {
+            throw new NotEnoughBooksInStorageException("The book " + book.getTitle() +
+                    " remained only in " + book.getStorageNum() + " copies.");
+        }
         book.setStorageNum(book.getStorageNum() - number)
                 .setOrderNum(book.getOrderNum() + number);
-        bookRepository.save(book);
-        log.info("Book with id: {} ordered. In storage left {}", id, book.getStorageNum());
+        Book savedBook = bookRepository.save(book);
+        log.info("Book with id: {} ordered. In storage left {}", id, savedBook.getStorageNum());
+        return savedBook;
     }
 
     @Override

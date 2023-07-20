@@ -7,6 +7,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/bookify
     username: postgres
     password: root
+  data:
+    mongodb:
+      database: bookify
+      host: localhost
+      port: 27017
+
 
   servlet:
     multipart:
