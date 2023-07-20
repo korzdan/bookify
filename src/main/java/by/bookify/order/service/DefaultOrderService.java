@@ -49,7 +49,7 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public void create(OrderCreateDto dto, String userEmail) {
+    public Order create(OrderCreateDto dto, String userEmail) {
         User user = (User) userService.loadUserByUsername(userEmail);
         Order order = toOrder(dto, user);
         updateBooks(dto);
@@ -57,6 +57,7 @@ public class DefaultOrderService implements OrderService {
         statisticsService.incrementOrdersNum();
         Order newOrder = orderRepository.save(order);
         log.info("New order with id: {} has been created by user with id: {}", newOrder.getId(), user.getId());
+        return newOrder;
     }
 
     @Override

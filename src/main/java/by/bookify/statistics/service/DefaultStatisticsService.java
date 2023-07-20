@@ -21,23 +21,23 @@ public class DefaultStatisticsService implements StatisticsService {
     }
 
     @Override
-    public void incrementOrdersNum() {
+    public Statistics incrementOrdersNum() {
         Statistics statistics = find();
         statistics.setOrdersNum(statistics.getOrdersNum() + 1);
-        statisticsRepository.save(statistics);
+        return statisticsRepository.save(statistics);
     }
 
     @Override
-    public void incrementUsersNum() {
+    public Statistics incrementUsersNum() {
         Statistics statistics = find();
         statistics.setUsersNum(statistics.getUsersNum() + 1);
-        statisticsRepository.save(statistics);
+        return statisticsRepository.save(statistics);
     }
 
     @Override
-    public void incrementBooksNum() {
+    public Statistics incrementBooksNum() {
         Statistics statistics = find();
         statistics.setBooksNum(statistics.getBooksNum() + 1);
-        statisticsRepository.save(statistics);
+        return statisticsRepository.save(statistics);
     }
 }
