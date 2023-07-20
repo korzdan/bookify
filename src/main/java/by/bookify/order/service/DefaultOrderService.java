@@ -61,11 +61,11 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public void updateStatus(Long orderId, OrderStatus orderStatus) {
+    public Order updateStatus(Long orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Такого заказа не существует."))
+                .orElseThrow(() -> new OrderNotFoundException("Such a status doesn't exist."))
                 .setStatus(orderStatus);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     private Order toOrder(OrderCreateDto dto, User user) {

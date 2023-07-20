@@ -15,5 +15,5 @@ public interface OrderService {
 
     Order create(OrderCreateDto dto, String userEmail);
 
-    void updateStatus(Long orderId, OrderStatus orderStatus);
+    Order updateStatus(Long orderId, OrderStatus orderStatus);
 }

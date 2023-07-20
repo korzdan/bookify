@@ -1,6 +1,6 @@
 package by.bookify.image.exception;
 
-import by.bookify.general.model.ExceptionResponse;
+import by.bookify.general.exception.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

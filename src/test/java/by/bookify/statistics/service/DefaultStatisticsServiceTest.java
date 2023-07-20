@@ -1,7 +1,5 @@
 package by.bookify.statistics.service;
 
-import by.bookify.book.model.Book;
-import by.bookify.book.model.BookLanguage;
 import by.bookify.statistics.exception.StatisticsNotFoundException;
 import by.bookify.statistics.model.Statistics;
 import by.bookify.statistics.repository.StatisticsRepository;

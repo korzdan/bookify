@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,9 +28,10 @@ public class DefaultUserServiceTest {
     @Test
     void loadUserByUsername_userExist_true() {
         String username = "username";
-        User user = new User().setName("name")
-                        .setSurname("surname")
-                        .setEmail("username");
+        User user = new User()
+                .setName("name")
+                .setSurname("surname")
+                .setEmail("username");
 
         when(userRepository.findByEmail(username)).thenReturn(Optional.of(user));
         User actualUser = userService.loadUserByUsername(username);
@@ -44,9 +46,10 @@ public class DefaultUserServiceTest {
         String username = "username";
 
         when(userRepository.findByEmail(username)).thenReturn(Optional.empty());
-        UserNotFoundException actualException = assertThrows(UserNotFoundException.class,
-                () -> userService.loadUserByUsername(username));
 
+        UserNotFoundException actualException = assertThrows(
+                UserNotFoundException.class,
+                () -> userService.loadUserByUsername(username));
         assertEquals("User hasn't been found.", actualException.getMessage());
     }
 
@@ -60,9 +63,10 @@ public class DefaultUserServiceTest {
 
     @Test
     void save_verifyCallOfSave_true() {
-        User user = new User().setName("name")
-                        .setSurname("surname")
-                        .setEmail("username");
+        User user = new User()
+                .setName("name")
+                .setSurname("surname")
+                .setEmail("username");
 
         userService.save(user);
         verify(userRepository).save(user);

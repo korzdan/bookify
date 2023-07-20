@@ -19,6 +19,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class DefaultGenreServiceTest {
 
+    public static final Long GENRE_ID = 1L;
+
     @Mock
     private GenreRepository genreRepository;
 
@@ -27,23 +29,21 @@ public class DefaultGenreServiceTest {
 
     @Test
     void findById_genreExist_true() {
-        Long genreId = 1L;
         Genre genre = new Genre().setName("Genre");
 
-        when(genreRepository.findById(genreId)).thenReturn(Optional.of(genre));
-        Genre actualGenre = genreService.findById(genreId);
+        when(genreRepository.findById(GENRE_ID)).thenReturn(Optional.of(genre));
+        Genre actualGenre = genreService.findById(GENRE_ID);
 
         assertEquals(actualGenre.getName(), "Genre");
     }
 
     @Test
     void findById_genreDoesNotExist_thrownException() {
-        Long bookId = 10L;
+        when(genreRepository.findById(GENRE_ID)).thenReturn(Optional.empty());
 
-        when(genreRepository.findById(bookId)).thenReturn(Optional.empty());
-        GenreNotFoundException actualException = assertThrows(GenreNotFoundException.class,
-                () -> genreService.findById(bookId));
-
+        GenreNotFoundException actualException = assertThrows(
+                GenreNotFoundException.class,
+                () -> genreService.findById(GENRE_ID));
         assertEquals("Genre not found.", actualException.getMessage());
     }
 

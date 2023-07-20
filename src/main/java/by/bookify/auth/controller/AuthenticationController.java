@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static by.bookify.user.model.Role.ROLE_ADMIN;
 import static by.bookify.user.model.Role.ROLE_USER;
 
@@ -24,13 +26,13 @@ public class AuthenticationController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<AuthResponseDto> registerUser(@RequestBody @Valid RegisterRequestDto registerRequestDto) {
         return ResponseEntity.ok(authService.register(registerRequestDto, ROLE_USER));
     }
 
     @PostMapping("/register/admin")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<AuthResponseDto> registerAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<AuthResponseDto> registerAdmin(@RequestBody @Valid RegisterRequestDto registerRequestDto) {
         return ResponseEntity.ok(authService.register(registerRequestDto, ROLE_ADMIN));
     }
 

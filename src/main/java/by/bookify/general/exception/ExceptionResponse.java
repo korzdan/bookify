@@ -1,4 +1,4 @@
-package by.bookify.general.model;
+package by.bookify.general.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
