@@ -1,5 +1,6 @@
 package by.bookify.book.service;
 
+import by.bookify.book.exception.BookCreationException;
 import by.bookify.book.exception.BookNotFoundException;
 import by.bookify.book.model.Book;
 import by.bookify.book.model.BookCreateDto;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -73,18 +75,22 @@ public class DefaultBookService implements BookService {
     }
 
     private Book toBook(BookCreateDto dto) {
-        return new Book()
-                .setTitle(dto.getTitle())
-                .setDescription(dto.getDescription())
-                .setPublicationDate(LocalDate.parse(dto.getPublicationDate()))
-                .setGenre(genreService.findById(dto.getGenreId()))
-                .setPages(dto.getPages())
-                .setIsbn(dto.getIsbn())
-                .setLanguage(BookLanguage.valueOf(dto.getLanguage().toUpperCase()))
-                .setStorageNum(dto.getStorageNum())
-                .setOrderNum(0)
-                .setAuthor(dto.getAuthor())
-                .setPublisher(dto.getPublisher())
-                .setPrice(dto.getPrice());
+        try {
+            return new Book()
+                    .setTitle(dto.getTitle())
+                    .setDescription(dto.getDescription())
+                    .setPublicationDate(LocalDate.parse(dto.getPublicationDate()))
+                    .setGenre(genreService.findById(dto.getGenreId()))
+                    .setPages(dto.getPages())
+                    .setIsbn(dto.getIsbn())
+                    .setLanguage(BookLanguage.valueOf(dto.getLanguage().toUpperCase()))
+                    .setStorageNum(dto.getStorageNum())
+                    .setOrderNum(0)
+                    .setAuthor(dto.getAuthor())
+                    .setPublisher(dto.getPublisher())
+                    .setPrice(dto.getPrice());
+        } catch (DateTimeParseException e) {
+            throw new BookCreationException("The date must be in format YYYY-MM-DD.");
+        }
     }
 }

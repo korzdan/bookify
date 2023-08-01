@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class BookController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Book> createBook(@RequestBody BookCreateDto dto) {
+    public ResponseEntity<Book> createBook(@RequestBody @Valid BookCreateDto dto) {
         return ResponseEntity.ok(bookService.createBook(dto));
     }
 }

@@ -49,7 +49,7 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public void create(OrderCreateDto dto, String userEmail) {
+    public Order create(OrderCreateDto dto, String userEmail) {
         User user = (User) userService.loadUserByUsername(userEmail);
         Order order = toOrder(dto, user);
         updateBooks(dto);
@@ -57,14 +57,15 @@ public class DefaultOrderService implements OrderService {
         statisticsService.incrementOrdersNum();
         Order newOrder = orderRepository.save(order);
         log.info("New order with id: {} has been created by user with id: {}", newOrder.getId(), user.getId());
+        return newOrder;
     }
 
     @Override
-    public void updateStatus(Long orderId, OrderStatus orderStatus) {
+    public Order updateStatus(Long orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Такого заказа не существует."))
+                .orElseThrow(() -> new OrderNotFoundException("Such a status doesn't exist."))
                 .setStatus(orderStatus);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     private Order toOrder(OrderCreateDto dto, User user) {

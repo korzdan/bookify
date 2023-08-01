@@ -5,9 +5,9 @@ import by.bookify.statistics.model.Statistics;
 public interface StatisticsService {
     Statistics find();
 
-    void incrementOrdersNum();
+    Statistics incrementOrdersNum();
 
-    void incrementUsersNum();
+    Statistics incrementUsersNum();
 
-    void incrementBooksNum();
+    Statistics incrementBooksNum();
 }

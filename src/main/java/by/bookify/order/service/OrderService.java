@@ -13,7 +13,7 @@ public interface OrderService {
 
     List<Order> findByStatus(String status);
 
-    void create(OrderCreateDto dto, String userEmail);
+    Order create(OrderCreateDto dto, String userEmail);
 
-    void updateStatus(Long orderId, OrderStatus orderStatus);
+    Order updateStatus(Long orderId, OrderStatus orderStatus);
 }
