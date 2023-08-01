@@ -1,0 +1,26 @@
+[versions]
+spring = '2.7.10'
+postgres = '42.3.8'
+jjwt = '0.11.5'
+flyway = '8.5.13'
+hibernateValidator = '8.0.0.Final'
+
+[libraries]
+spring-starter-web = { group = 'org.springframework.boot', name = 'spring-boot-starter-web', version.ref = 'spring' }
+spring-starter-jpa = { group = 'org.springframework.boot', name = 'spring-boot-starter-data-jpa', version.ref = 'spring' }
+spring-starter-security = { group = 'org.springframework.boot', name = 'spring-boot-starter-security', version.ref = 'spring' }
+spring-starter-redis = { group = 'org.springframework.boot', name = 'spring-boot-starter-data-redis', version.ref = 'spring' }
+spring-starter-mongo = { group = 'org.springframework.boot', name = 'spring-boot-starter-data-mongodb', version.ref = 'spring' }
+spring-starter-test = { group = 'org.springframework.boot', name = 'spring-boot-starter-test', version.ref = 'spring' }
+
+jjwt-api = { group = 'io.jsonwebtoken', name = 'jjwt-api', version.ref = 'jjwt' }
+jjwt-impl = { group = 'io.jsonwebtoken', name = 'jjwt-impl', version.ref = 'jjwt' }
+jjwt-jackson = { group = 'io.jsonwebtoken', name = 'jjwt-jackson', version.ref = 'jjwt' }
+
+flyway-core = { group = 'org.flywaydb', name = 'flyway-core', version.ref = 'flyway' }
+postgres = { group = 'org.postgresql', name = 'postgresql', version.ref = 'postgres' }
+
+hibernate-validator = { group = 'org.hibernate', name = 'hibernate-validator', version.ref = 'hibernateValidator' }
+
+[bundles]
+jjwt = ['jjwt-api', 'jjwt-impl', 'jjwt-jackson']
