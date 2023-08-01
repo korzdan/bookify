@@ -6,10 +6,9 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
 @SpringBootApplication
-public class BookifyApplication {
+public class BookifyCoreApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(BookifyApplication.class, args);
+        SpringApplication.run(BookifyCoreApp.class, args);
     }
-
 }
