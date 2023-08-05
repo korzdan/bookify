@@ -1,0 +1,6 @@
+dependencies {
+    implementation libs.spring.starter.jpa
+    implementation libs.spring.starter.mongo
+    implementation libs.hibernate.validator
+    implementation libs.spring.starter.security
+}
